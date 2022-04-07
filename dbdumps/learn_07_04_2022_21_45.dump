@@ -1,0 +1,250 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.6
+-- Dumped by pg_dump version 13.6
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: aircrafts; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.aircrafts (
+    aircraft_code character(3) NOT NULL,
+    model text NOT NULL,
+    range integer NOT NULL,
+    CONSTRAINT aircrafts_range_check CHECK ((range > 0))
+);
+
+
+ALTER TABLE public.aircrafts OWNER TO postgres;
+
+--
+-- Name: databases; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.databases (
+    is_open_source boolean,
+    dbms_name character varying(30)
+);
+
+
+ALTER TABLE public.databases OWNER TO postgres;
+
+--
+-- Name: pilot_hobbies; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.pilot_hobbies (
+    pilot_name character varying(100),
+    hobbies jsonb
+);
+
+
+ALTER TABLE public.pilot_hobbies OWNER TO postgres;
+
+--
+-- Name: pilots; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.pilots (
+    pilot_name character varying(100),
+    schedule integer[]
+);
+
+
+ALTER TABLE public.pilots OWNER TO postgres;
+
+--
+-- Name: seats; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.seats (
+    aircraft_code character(3) NOT NULL,
+    seat_no character varying(4) NOT NULL,
+    fare_condition character varying(10) NOT NULL,
+    CONSTRAINT seats_fare_condition_check CHECK (((fare_condition)::text = ANY ((ARRAY['Economy'::character varying, 'Comfort'::character varying, 'Business'::character varying])::text[])))
+);
+
+
+ALTER TABLE public.seats OWNER TO postgres;
+
+--
+-- Name: show_arrs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.show_arrs (
+    arr integer[] NOT NULL
+);
+
+
+ALTER TABLE public.show_arrs OWNER TO postgres;
+
+--
+-- Data for Name: aircrafts; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.aircrafts (aircraft_code, model, range) FROM stdin;
+CN1	Cessna 208 Caravan	1200
+CR2	Bombardier CRJ-200	2700
+SU9	Suhoi Superject 100	9000
+773	Boeing 777-300	9000
+321	Airbus A321-200	5600
+763	Boeing 767-300	7900
+733	Boeing 737-300	4200
+319	Airbus A319-100	7700
+\.
+
+
+--
+-- Data for Name: databases; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.databases (is_open_source, dbms_name) FROM stdin;
+t	PostgreSQL
+f	Oracle
+t	MySQL
+f	MS SQL Server
+\.
+
+
+--
+-- Data for Name: pilot_hobbies; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.pilot_hobbies (pilot_name, hobbies) FROM stdin;
+Ivan	{"trips": 3, "sports": ["футбол", "плавание"], "home_lib": true}
+Petr	{"trips": 2, "sports": ["теннис", "плавание"], "home_lib": true}
+Pavel	{"trips": 4, "sports": ["плавание"], "home_lib": false}
+Boris	{"trips": 0, "sports": ["футбол", "плавание", "теннис"], "home_lib": true}
+\.
+
+
+--
+-- Data for Name: pilots; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.pilots (pilot_name, schedule) FROM stdin;
+Pavel	{2,5,6,7}
+Boris	{2,3,5,6}
+Petr	{1,2,3,6}
+Andrew	{2,3,5,6}
+\.
+
+
+--
+-- Data for Name: seats; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.seats (aircraft_code, seat_no, fare_condition) FROM stdin;
+773	23A	Economy
+SU9	1A	Business
+SU9	1B	Business
+SU9	10A	Economy
+SU9	10B	Economy
+SU9	10F	Economy
+SU9	20F	Economy
+763	1A	Business
+763	1B	Business
+763	10A	Economy
+763	10B	Economy
+763	10F	Economy
+763	20F	Economy
+773	1B	Business
+773	10A	Economy
+773	10B	Economy
+773	10F	Economy
+773	20F	Economy
+733	1A	Business
+733	1B	Business
+733	10A	Economy
+733	10B	Economy
+733	10F	Economy
+733	20F	Economy
+321	1A	Business
+321	1B	Business
+321	10A	Economy
+321	10B	Economy
+321	10F	Economy
+321	20F	Economy
+319	1A	Business
+319	1B	Business
+319	10A	Economy
+319	10B	Economy
+319	10F	Economy
+319	20F	Economy
+CN1	1A	Business
+CN1	1B	Business
+CN1	10A	Economy
+CN1	10B	Economy
+CN1	10F	Economy
+CN1	20F	Economy
+CR2	1A	Business
+CR2	1B	Business
+CR2	10A	Economy
+CR2	10B	Economy
+CR2	10F	Economy
+CR2	20F	Economy
+\.
+
+
+--
+-- Data for Name: show_arrs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.show_arrs (arr) FROM stdin;
+{1,2,3,5}
+{4,5,6,5}
+\.
+
+
+--
+-- Name: aircrafts aircrafts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.aircrafts
+    ADD CONSTRAINT aircrafts_pkey PRIMARY KEY (aircraft_code);
+
+
+--
+-- Name: seats seats_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.seats
+    ADD CONSTRAINT seats_pkey PRIMARY KEY (aircraft_code, seat_no);
+
+
+--
+-- Name: seats seats_aircraft_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.seats
+    ADD CONSTRAINT seats_aircraft_code_fkey FOREIGN KEY (aircraft_code) REFERENCES public.aircrafts(aircraft_code) ON DELETE CASCADE;
+
+
+--
+-- Name: TABLE aircrafts; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.aircrafts TO provider;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
