@@ -45,8 +45,8 @@ require_once "./functions.php";
                                         <div id="rangeHelp" class="form-text">Максимальная дальность полета самолета</div>
                                     </div>
 
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary" name="add">Submit</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                    <button type="submit" class="btn btn-primary" name="add">Добавить</button>
                                 </form>
                             </div>
                         </div>
@@ -55,7 +55,7 @@ require_once "./functions.php";
 
                 <!-- Кнопка, активирующая модальное окно для редактирования данных о самолете -->
                 <button hidden id="editAircraftModalButton" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAircraft">
-                    Добавить
+                    Изменить
                 </button>
 
                 <!-- Модальное окно для редактирования данных о самолете -->
@@ -83,8 +83,8 @@ require_once "./functions.php";
                                         <div id="rangeHelpEdit" class="form-text">Максимальная дальность полета самолета</div>
                                     </div>
 
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary" name="update">Submit</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                    <button type="submit" class="btn btn-primary" name="update">Изменить</button>
                                 </form>
                             </div>
                         </div>
