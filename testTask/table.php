@@ -169,7 +169,7 @@ require_once "./functions.php";
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th scope="row">Total: </th>
+                            <th scope="row">Всего: </th>
                             <td><?= $i ?></td>
                         </tr>
                     </tfoot>
